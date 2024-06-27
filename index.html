@@ -1,0 +1,156 @@
+<!-- treinamento em javascript-->
+<!-- jogo de advinhação-->
+
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo de Adivinhação</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .resultado {
+            margin: 20px;
+            padding: 10px;
+            font-size: 1.2em;
+        }
+        .acertou {
+            background-color: green;
+            color: white;
+        }
+        .errou {
+            background-color: red;
+            color: white;
+        }
+        .palpites,
+        .ultimoResultado,
+        .baixoOuAlto {
+            margin: 10px;
+        }
+        .macaco-dancando {
+            display: none;
+            margin-top: 10px;
+            margin-left: 52em;
+            padding: 2px;
+            
+        }
+    </style>
+</head>
+<body>
+    <h1>Jogo de Adivinhação</h1>
+    <p class="palpites"></p>
+    <p class="ultimoResultado"></p>
+    <p class="baixoOuAlto"></p>
+    <label for="campoPalpite">Digite seu palpite:</label>
+    <input type="text" id="campoPalpite" class="campoPalpite"/>
+    <input type="button" value="Enviar Palpite" class="envioPalpite"/>
+    <img src="src/giphy.gif" class="macaco-dancando" alt="Macaco Dançando">
+    <script>
+        // Geração de número aleatório entre 1 e 100
+        var numeroAleatorio = Math.floor(Math.random() * 100) + 1;
+
+        // Selecionar elementos do HTML pelos seus respectivos seletores de classe
+        var palpite = document.querySelector(".palpites");
+        var ultimoResultado = document.querySelector(".ultimoResultado");
+        var baixoOuAlto = document.querySelector(".baixoOuAlto");
+        var macacoDancando = document.querySelector(".macaco-dancando");
+
+        // Selecionar botão de envio de palpite e campo de entrada de palpite
+        var envioPalpite = document.querySelector(".envioPalpite");
+        var campoPalpite = document.querySelector(".campoPalpite");
+
+        // Variáveis de controle do jogo
+        var contagemPalpites = 1;
+        var botaoReinicio;
+
+        // Função para verificar o palpite do usuário
+        function conferirPalpite() {
+            var palpiteUsuario = Number(campoPalpite.value);
+
+            // Inicializa a exibição dos palpites anteriores
+            if (contagemPalpites === 1) {
+                palpite.textContent = "Palpites anteriores: ";
+            }
+            palpite.textContent += palpiteUsuario + " "; // Adiciona o palpite atual à lista de palpites
+
+            // Verifica se o palpite do usuário é correto
+            if (palpiteUsuario === numeroAleatorio) {
+                ultimoResultado.textContent = "Parabéns! Você acertou!!! na mosca!";
+                ultimoResultado.classList.add("acertou");
+                ultimoResultado.classList.remove("errou");
+                baixoOuAlto.textContent = "";
+                macacoDancando.style.display = "block"; // Mostra o GIF do macaco dançando
+                configFimDeJogo(); // Configura o fim do jogo
+            } else if (contagemPalpites === 10) {
+                ultimoResultado.textContent = "!!!FIM DE JOGO!!!";
+                baixoOuAlto.textContent = "";
+                campoPalpite.disabled = true; // Desabilita o campo de palpite
+                envioPalpite.disabled = true; // Desabilita o botão de envio de palpite
+                configFimDeJogo(); // Configura o fim do jogo
+            } else {
+                ultimoResultado.textContent = "Errado!";
+                ultimoResultado.classList.add("errou");
+                ultimoResultado.classList.remove("acertou");
+
+                // Informa se o palpite está muito baixo ou muito alto
+                if (palpiteUsuario < numeroAleatorio) {
+                    baixoOuAlto.textContent = "Seu palpite está muito baixo!";
+                } else if (palpiteUsuario > numeroAleatorio) {
+                    baixoOuAlto.textContent = "Seu palpite está muito alto!";
+                }
+
+                contagemPalpites++; // Incrementa o número de palpites
+                campoPalpite.value = ""; // Limpa o campo de entrada de palpite
+                campoPalpite.focus(); // Coloca o foco de volta no campo de entrada
+            }
+        }
+
+        // Adiciona um ouvinte de evento para o botão de envio de palpite
+        envioPalpite.addEventListener("click", conferirPalpite);
+
+        // Função para configurar o fim do jogo
+        function configFimDeJogo() {
+            campoPalpite.disabled = true; // Desabilita o campo de palpite
+            envioPalpite.disabled = true; // Desabilita o botão de envio de palpite
+
+            // Cria um botão para reiniciar o jogo
+            botaoReinicio = document.createElement("button");
+            botaoReinicio.textContent = "Iniciar novo jogo";
+            document.body.appendChild(botaoReinicio); // Adiciona o botão ao corpo do documento
+
+            // Adiciona um ouvinte de evento para reiniciar o jogo ao botão de reinício
+            botaoReinicio.addEventListener("click", reiniciarJogo);
+        }
+
+        // Função para reiniciar o jogo
+        function reiniciarJogo() {
+            contagemPalpites = 1; // Reinicia a contagem de palpites
+            numeroAleatorio = Math.floor(Math.random() * 100) + 1; // Gera um novo número aleatório
+
+            // Limpa os parágrafos de resultados anteriores
+            palpite.textContent = ""; // Limpa a lista de palpites anteriores
+            ultimoResultado.textContent = ""; // Limpa o texto do resultado anterior
+            ultimoResultado.classList.remove("acertou", "errou");
+            baixoOuAlto.textContent = ""; // Limpa a mensagem de palpite muito baixo ou alto
+            macacoDancando.style.display = "none"; // Esconde o GIF do macaco dançando
+
+            // Remove o botão de reinício, se existir
+            if (botaoReinicio) {
+                botaoReinicio.parentNode.removeChild(botaoReinicio);
+            }
+
+            // Habilita o campo de palpite e o botão de envio de palpite
+            campoPalpite.disabled = false;
+            envioPalpite.disabled = false;
+
+            campoPalpite.value = ""; // Limpa o campo de entrada de palpite
+            campoPalpite.focus(); // Coloca o foco de volta no campo de entrada
+        }
+    </script>
+</body>
+</html>
