@@ -1,0 +1,11 @@
+services:
+  jogoadivinhacao:
+    image: "node:19-bullseye"
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./:/home/node/app
+    ports:
+      - "8888:8888"
+    command: "npm start"

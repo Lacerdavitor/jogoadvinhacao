@@ -1,0 +1,23 @@
+{
+  "name": "jogoadvinhacao",
+  "version": "1.0.0",
+  "description": "Projeto Jogo de Adivinhacao",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lacerdavitor/jogoadvinhacao.git"
+  },
+  "author": "Joao Vitor",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Lacerdavitor/jogoadvinhacao/issues"
+  },
+  "homepage": "https://github.com/Lacerdavitor/jogoadvinhacao#readme",
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
