@@ -1,0 +1,29 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin-top: 50px;
+}
+.resultado {
+    margin: 20px;
+    padding: 10px;
+    font-size: 1.2em;
+}
+.acertou {
+    background-color: green;
+    color: white;
+}
+.errou {
+    background-color: red;
+    color: white;
+}
+.palpites,
+.ultimoResultado,
+.baixoOuAlto {
+    margin: 10px;
+}
+.macaco-dancando {
+    display: none;
+    margin-top: 10px;
+    margin-left: 52em;
+    padding: 2px;   
+}
